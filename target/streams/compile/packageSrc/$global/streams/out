@@ -1,0 +1,33 @@
+[0m[[0minfo[0m] [0mPackaging C:\Users\EMA-GREEN\Documents\Play stuff\smsc\target\scala-2.11\smsc_2.11-1.0-SNAPSHOT-sources.jar ...[0m
+[0m[[0mdebug[0m] [0mInput file mappings:[0m
+[0m[[0mdebug[0m] [0m	Global.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\Global.java[0m
+[0m[[0mdebug[0m] [0m	routes[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\conf\routes[0m
+[0m[[0mdebug[0m] [0m	evolutions\default\1.sql[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\conf\evolutions\default\1.sql[0m
+[0m[[0mdebug[0m] [0m	chsmpp\CHSMPPClient.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\chsmpp\CHSMPPClient.java[0m
+[0m[[0mdebug[0m] [0m	models\MO.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\models\MO.java[0m
+[0m[[0mdebug[0m] [0m	models\Subscriber.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\models\Subscriber.java[0m
+[0m[[0mdebug[0m] [0m	utils\beanUtil.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\utils\beanUtil.java[0m
+[0m[[0mdebug[0m] [0m	chsmpp\CHSMPPServer.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\chsmpp\CHSMPPServer.java[0m
+[0m[[0mdebug[0m] [0m	chsmpp\CustomSmppSessionHandler.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\chsmpp\CustomSmppSessionHandler.java[0m
+[0m[[0mdebug[0m] [0m	application.conf[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\conf\application.conf[0m
+[0m[[0mdebug[0m] [0m	chsmpp\CustomSmppServerHandler.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\chsmpp\CustomSmppServerHandler.java[0m
+[0m[[0mdebug[0m] [0m	controllers\Application.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\controllers\Application.java[0m
+[0m[[0mdebug[0m] [0m	evolutions[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\conf\evolutions[0m
+[0m[[0mdebug[0m] [0m	evolutions\default[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\conf\evolutions\default[0m
+[0m[[0mdebug[0m] [0m	models\MT.java[0m
+[0m[[0mdebug[0m] [0m	  C:\Users\EMA-GREEN\Documents\Play stuff\smsc\app\models\MT.java[0m
+[0m[[0minfo[0m] [0mDone packaging.[0m
