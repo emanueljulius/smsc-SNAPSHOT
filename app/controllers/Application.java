@@ -13,10 +13,10 @@ public class Application extends Controller {
         return ok(index.render("SMSC"));
     }
 
-    public static Result sendSMS(){
+    public static Result callBack(String msisdn, String message){
         CHSMPPClient chsmppClient = new CHSMPPClient();
         try {
-            chsmppClient.sendSMS("SMS", "255783423272", "sms test");
+            chsmppClient.execute("SMS", msisdn, message);
         } catch (RecoverablePduException e) {
             Logger.error("...........error........." + e.getMessage());
         }

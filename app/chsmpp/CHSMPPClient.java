@@ -26,7 +26,7 @@ public class CHSMPPClient {
 
     public CHSMPPClient(){}
 
-    public static void sendSMS(String senderID, String msisdn, String msg) throws RecoverablePduException {
+    public static void execute(String senderID, String msisdn, String msg) throws RecoverablePduException {
         //
         // setup 3 things required for any session we plan on creating
         //
@@ -105,8 +105,7 @@ public class CHSMPPClient {
                 Logger.error("Failed to properly receive enquire_link_resp: " + future0.getCause());
             }
 
-//            String text160 = "\u20AC Lorem [ipsum] dolor sit amet, consectetur adipiscing elit. Proin feugiat, leo id comsubmitSmdo tincidunt, nibh diam ornare est, vitae accumsan risus lacus sed sem metus.";
-            String text160 = msg;
+            String text160 = "Code is being authenticated";
             byte[] textBytes = CharsetUtil.encode(text160, CharsetUtil.CHARSET_GSM);
 
             SubmitSm submit0 = new SubmitSm();
@@ -122,6 +121,12 @@ public class CHSMPPClient {
 
             Logger.info(".....submitResp......"+submitResp.getResultMessage());
             Logger.info(".....message id......"+submitResp.getMessageId());
+
+            MO mo = new MO();
+            mo.msisdn = msisdn;
+            mo.text = msg;
+            mo.receivedDate = new Date();
+            beanUtil.save(mo);
 
             MT mt = new MT();
             mt.msisdn = msisdn;
@@ -183,7 +188,7 @@ public class CHSMPPClient {
         public PduResponse firePduRequestReceived(PduRequest pduRequest) {
             PduResponse response = pduRequest.createResponse();
 
-            Logger.info("..........PDU Data Received: {}", pduRequest);
+            /*Logger.info("..........PDU Data Received: {}", pduRequest);
             if (pduRequest.getCommandId() == SmppConstants.CMD_ID_SUBMIT_SM) {
                 SubmitSm submitSm = (SubmitSm) pduRequest;
                 int length = submitSm.getShortMessageLength();
@@ -198,7 +203,7 @@ public class CHSMPPClient {
                 Logger.info("....................received smpp sms...........................");
 
                 try {
-                    sendSMS("SMS", destination, message);
+                    execute("SMS", destination, message);
                     MO mo = new MO();
                     mo.msisdn = destination;
                     mo.text = message;
@@ -208,7 +213,7 @@ public class CHSMPPClient {
                 } catch (RecoverablePduException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             return response;
         }
