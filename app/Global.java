@@ -1,16 +1,16 @@
-import chsmpp.CHSMPPServer;
+import chsmpp.CHSMPPClient;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 
 public class Global extends GlobalSettings {
-//    private final chsmpp.CHSMPPServer CHSMPPServer = new CHSMPPServer();
+    private final chsmpp.CHSMPPClient chsmppClient = new CHSMPPClient();
 
     @Override
     public void onStart(Application app) {
         Logger.info("...............Application has started.........................");
         try {
-//            CHSMPPServer.execute();
+            chsmppClient.initialize();
         } catch (Exception e) {
             Logger.error("......exception error......"+e.getLocalizedMessage());
         }
@@ -19,7 +19,7 @@ public class Global extends GlobalSettings {
     @Override
     public void onStop(Application app) {
         Logger.info("...............Application shutdown.............................");
-//        CHSMPPServer.stopExecution();
+        chsmppClient.unbindAndClose();
     }
 
 }

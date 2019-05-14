@@ -24,9 +24,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CHSMPPClient {
 
+    private static SmppSession session0 = null;
+    private static DefaultSmppClient clientBootstrap;
+    private static ScheduledThreadPoolExecutor submitSmnitorExecutor;
+    private static ThreadPoolExecutor executor;
+
     public CHSMPPClient(){}
 
-    public static void execute(String senderID, String msisdn, String msg) throws RecoverablePduException {
+    public static void initialize() throws RecoverablePduException {
         //
         // setup 3 things required for any session we plan on creating
         //
@@ -36,12 +41,12 @@ public class CHSMPPClient {
         // this permits exposing thinks like executor.getActiveCount() via JMX possible
         // no point renaming the threads in a factory since underlying Netty 
         // framework does not easily allow you to customize your thread names
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 
         // to enable automatic expiration of requests, a second scheduled executor
         // is required which is what a submitSmnitor task will be executed with - this
         // is probably a thread pool that can be shared with between all client bootstraps
-        ScheduledThreadPoolExecutor submitSmnitorExecutor = (ScheduledThreadPoolExecutor)Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        submitSmnitorExecutor = (ScheduledThreadPoolExecutor)Executors.newScheduledThreadPool(1, new ThreadFactory() {
             private final AtomicInteger sequence = new AtomicInteger(0);
             @Override
             public Thread newThread(Runnable r) {
@@ -61,7 +66,7 @@ public class CHSMPPClient {
         // used for NIO sockets essentially uses this value as the max number of
         // threads it will ever use, despite the "max pool size", etc. set on
         // the executor passed in here
-        DefaultSmppClient clientBootstrap = new DefaultSmppClient(Executors.newCachedThreadPool(), 1, submitSmnitorExecutor);
+        clientBootstrap = new DefaultSmppClient(Executors.newCachedThreadPool(), 1, submitSmnitorExecutor);
 
         //
         // setup configuration for a client session
@@ -86,8 +91,6 @@ public class CHSMPPClient {
         //
         // create session, enquire link, submit an sms, close session
         //
-        SmppSession session0 = null;
-
         try {
             // create session a session by having the bootstrap connect a
             // socket, send the bind request, and wait for a bind response
@@ -105,8 +108,18 @@ public class CHSMPPClient {
                 Logger.error("Failed to properly receive enquire_link_resp: " + future0.getCause());
             }
 
-            String text160 = msg;
-            byte[] textBytes = CharsetUtil.encode(text160, CharsetUtil.CHARSET_GSM);
+            Logger.info("sendWindow.size: {}", session0.getSendWindow().getSize());
+        } catch (SmppTimeoutException | SmppChannelException | UnrecoverablePduException | InterruptedException | RecoverablePduException e) {
+            Logger.error("", e);
+        }
+    }
+
+    public static SmppSession getSmppSession(){
+        return session0;
+    }
+
+    public static void sendSMS(String senderID, String msisdn, String text) throws RecoverablePduException, InterruptedException, SmppChannelException, UnrecoverablePduException, SmppTimeoutException {
+            byte[] textBytes = CharsetUtil.encode(text, CharsetUtil.CHARSET_GSM);
 
             SubmitSm submit0 = new SubmitSm();
             submit0.setCommandStatus(SmppConstants.CMD_ID_SUBMIT_SM);
@@ -124,17 +137,13 @@ public class CHSMPPClient {
 
             MT mt = new MT();
             mt.msisdn = msisdn;
-            mt.text = text160;
+            mt.text = text;
             mt.sentDate = new Date();
             beanUtil.save(mt);
+    }
 
-            Logger.info("sendWindow.size: {}", session0.getSendWindow().getSize());
-
-            session0.unbind(5000);
-        } catch (SmppTimeoutException | SmppChannelException | UnrecoverablePduException | InterruptedException | RecoverablePduException e) {
-            Logger.error("", e);
-        }
-
+    public static void unbindAndClose(){
+        session0.unbind(5000);
         if (session0 != null) {
             Logger.info("Cleaning up session... (final counters)");
             if (session0.hasCounters()) {
@@ -159,7 +168,6 @@ public class CHSMPPClient {
         clientBootstrap.destroy();
         executor.shutdownNow();
         submitSmnitorExecutor.shutdownNow();
-
         Logger.info("Done. Exiting");
     }
 
@@ -204,8 +212,16 @@ public class CHSMPPClient {
                     beanUtil.save(mo);
                     beanUtil.newSubscriber(destination);
                     String reply = "Code is being authenticated";
-                    execute("SMS", destination, reply);
+                    sendSMS("SMS", destination, reply);
                 } catch (RecoverablePduException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (SmppChannelException e) {
+                    e.printStackTrace();
+                } catch (UnrecoverablePduException e) {
+                    e.printStackTrace();
+                } catch (SmppTimeoutException e) {
                     e.printStackTrace();
                 }
             }
