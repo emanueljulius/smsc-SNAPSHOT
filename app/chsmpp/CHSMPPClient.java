@@ -105,7 +105,7 @@ public class CHSMPPClient {
                 Logger.error("Failed to properly receive enquire_link_resp: " + future0.getCause());
             }
 
-            String text160 = "Code is being authenticated";
+            String text160 = msg;
             byte[] textBytes = CharsetUtil.encode(text160, CharsetUtil.CHARSET_GSM);
 
             SubmitSm submit0 = new SubmitSm();
@@ -121,12 +121,6 @@ public class CHSMPPClient {
 
             Logger.info(".....submitResp......"+submitResp.getResultMessage());
             Logger.info(".....message id......"+submitResp.getMessageId());
-
-            MO mo = new MO();
-            mo.msisdn = msisdn;
-            mo.text = msg;
-            mo.receivedDate = new Date();
-            beanUtil.save(mo);
 
             MT mt = new MT();
             mt.msisdn = msisdn;
@@ -188,7 +182,7 @@ public class CHSMPPClient {
         public PduResponse firePduRequestReceived(PduRequest pduRequest) {
             PduResponse response = pduRequest.createResponse();
 
-            /*Logger.info("..........PDU Data Received: {}", pduRequest);
+            Logger.info("..........PDU Data Received: {}", pduRequest);
             if (pduRequest.getCommandId() == SmppConstants.CMD_ID_SUBMIT_SM) {
                 SubmitSm submitSm = (SubmitSm) pduRequest;
                 int length = submitSm.getShortMessageLength();
@@ -203,17 +197,18 @@ public class CHSMPPClient {
                 Logger.info("....................received smpp sms...........................");
 
                 try {
-                    execute("SMS", destination, message);
                     MO mo = new MO();
                     mo.msisdn = destination;
                     mo.text = message;
                     mo.receivedDate = new Date();
                     beanUtil.save(mo);
                     beanUtil.newSubscriber(destination);
+                    String reply = "Code is being authenticated";
+                    execute("SMS", destination, reply);
                 } catch (RecoverablePduException e) {
                     e.printStackTrace();
                 }
-            }*/
+            }
 
             return response;
         }
