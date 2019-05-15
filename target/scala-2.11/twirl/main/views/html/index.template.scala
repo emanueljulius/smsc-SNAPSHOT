@@ -30,9 +30,11 @@ Seq[Any](format.raw/*1.19*/("""
 
 """),_display_(/*3.2*/main("Welcome to SMSC")/*3.25*/ {_display_(Seq[Any](format.raw/*3.27*/("""
 
+  """),format.raw/*5.3*/("""<section>
+      <p>SMSC</p>
+  </section>
 
-
-""")))}),format.raw/*7.2*/("""
+""")))}),format.raw/*9.2*/("""
 """))}
   }
 
@@ -45,11 +47,11 @@ Seq[Any](format.raw/*1.19*/("""
 }
               /*
                   -- GENERATED --
-                  DATE: Wed May 08 16:56:10 EAT 2019
+                  DATE: Wed May 15 10:37:00 EAT 2019
                   SOURCE: C:/Users/EMA-GREEN/Documents/Play stuff/smsc/app/views/index.scala.html
-                  HASH: bfa1b6953195bd14f99be6829fc3814f517ffe20
-                  MATRIX: 723->1|828->18|856->21|887->44|926->46|960->51
-                  LINES: 26->1|29->1|31->3|31->3|31->3|35->7
+                  HASH: 9160df6689d1e85c0a53e1a41f9e1a2158dfbb1c
+                  MATRIX: 723->1|828->18|856->21|887->44|926->46|956->50|1028->93
+                  LINES: 26->1|29->1|31->3|31->3|31->3|33->5|37->9
                   -- GENERATED --
               */
           
